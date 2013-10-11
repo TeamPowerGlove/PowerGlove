@@ -1,0 +1,23 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\JSLeap.js">
+    <Files>
+      <File FileName="Assets\Grab.js" Line="7" Column="20" />
+      <File FileName="Assets\Standard Assets\LEAP\Scripts\LeapUnityBridge.cs" Line="98" Column="4" />
+      <File FileName="Assets\Standard Assets\LEAP\Scripts\LeapUnityHandController.cs" Line="185" Column="1" />
+      <File FileName="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" Line="71" Column="18" />
+      <File FileName="Assets\Scripts\JSLeap.js" Line="190" Column="50" />
+      <File FileName="Assets\triggerPlay.js" Line="81" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
