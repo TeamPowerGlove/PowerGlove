@@ -1,4 +1,5 @@
 #pragma strict
+//A new comment
 //These variables are public so its easier to debug
 var cAngle:float = 0; //c...urrent
 var controlScript:GameObject;
