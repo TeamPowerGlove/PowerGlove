@@ -28,12 +28,13 @@ var primGrabStability:int;
 var secGrabStability:int;
 var cGrabbed:Grab;
 var hovered = false;
-var grabOffset:Vector3;
-//These variables actually make sense to modify. Maybe a convention would be to precede them?
+var tapID = 0;
+//These variables public and actually make sense to modify in real time. Maybe a convention would be to precede them?
 var grabDist = 3.0;
 var spinFactor = 3.0;
 var thumbTolerance = 60;
 var keySpeed = 1;
+var tapPoof:Transform;
 
 function Start () {
 	//spinCube = GameObject.FindGameObjectsWithTag("LookCube");
@@ -41,6 +42,7 @@ function Start () {
 	hands = leapController.behavior.m_hands;
 	palms = leapController.behavior.m_palms;
 	fingers = leapController.behavior.m_fingers;
+	
 	
 }
 
@@ -78,6 +80,8 @@ function Update () {
 	
 	if (palms[0].transform.parent.name != "Unknown Hand") palmCount ++;
 	if (palms[1].transform.parent.name != "Unknown Hand") palmCount ++;
+	
+
 	
 	//
 	//Check for Thumbs
@@ -150,20 +154,35 @@ function Update () {
 		Debug.DrawLine(P1,P2,Color.red);
 	}
 	//
-	//Grab Controls
+	//Respond to Taps (Instantiate dropped objects, smoke poofs, etc.)
+	//
+		if(tapID != leapController.behavior.gestureTapped) {
+			tapID = leapController.behavior.gestureTapped;
+			Instantiate(tapPoof,palms[0].transform.localPosition, Quaternion.identity);
+		}
+	//
+	//Grab Controls - Raycasting and modfying cGrabbed, ...
 	//
 	
 	
 	var hit : RaycastHit;
 	if(cGrabbed != null) {
-		cGrabbed.gameObject.transform.position = palms[0].transform.position + grabOffset;
+		//cGrabbed.gameObject.transform.position = palms[0].transform.position + grabOffset;
+		cGrabbed.handUpdate(palms[0].transform.position);
 		if (primCount >3) {
 			cGrabbed.grabbed = false;
 			cGrabbed = null;
 		}
 	}
-	if (cGrabbed == null && primCount>3 && Physics.Raycast(palms[0].transform.position,Vector3.down, hit, 3.0)) {
-		hit.transform.gameObject.GetComponent(typeof(Grab)).hover();
+	
+	if (cGrabbed == null && primCount>3) {
+		if(Physics.Raycast(palms[0].transform.position,Vector3.down, hit, 5.0)) {
+			//Debug.Log(hit.transform.gameObject.name);
+			//Debug.Log(hit.transform.gameObject.GetComponent(typeof(Grab)));
+			hit.transform.gameObject.GetComponent(typeof(Grab)).hover();
+			//Debug.DrawLine(palms[0].transform.position,hit.transform.position);
+			
+		}
 	}
 	
 	if (cGrabbed == null && primCount <=2) {
@@ -183,59 +202,26 @@ function Update () {
 		}
 		if(bestCount>0) {
 			if(bestGrab.dupable) {
-				 
-				var newObj:GameObject = Instantiate(bestObj,bestObj.transform.position,Quaternion.EulerAngles(0,0,0));
+
+				var newObj:GameObject = Instantiate(bestObj,bestObj.transform.position,new Quaternion(0,0,0,0));
 				newObj.transform.parent = table.transform;
 				newObj.GetComponent(typeof(Grab)).dupable = false;
 				newObj.GetComponent(typeof(Grab)).grabbed = true;
 				cGrabbed = newObj.GetComponent(typeof(Grab))	;
-				grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
+				var grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
+				cGrabbed.handUpdate(palms[0].transform.position);
+				cGrabbed.offset = grabOffset;
 			} else {
 				cGrabbed = bestGrab;
-				grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
-			}
-		}
-	}
-	if(false && palmCount ==1 ) { //This is stupid. All of this is stupid (unfinished)
-		if(primThumbStableCount < 5 || primCount<=3) {
-			
-			if (Physics.Raycast(palms[0].transform.position,Vector3.down, hit, 40.0)) {
-				if(hit.transform.gameObject == primCurrentGrab) {
-		
-					//var ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-					//ball.layer = 2;
-					//var scale = Random.RandomRange(.05,.5);
-					//ball.transform.localScale = Vector3(scale,scale,scale);
-					//ball.transform.position = hit.point;
-					//Debug.Log(hit.transform.position);
-					Debug.DrawLine(hit.transform.position,palms[0].transform.position,Color.blue);
-					primGrabStability += 1;
-					if(primGrabStability >30) {
-						primGrabStability = 30;
-					}
-				} else {
-					primGrabStability -= 5;
-					if(primGrabStability < 0) {
-						primGrabStability = 0;
-						primCurrentGrab = hit.transform.gameObject;
-											}
-				}
-			} else {
+				cGrabbed.grabbed = true;
+				cGrabbed.dupable = false;
 				
+				grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
+				cGrabbed.handUpdate(palms[0].transform.position);
+				cGrabbed.offset = grabOffset;
 			}
-			if(primGrabStability > 0) {
-				Debug.DrawRay(primCurrentGrab.transform.position,Vector3.down,Color.green);
-				primCurrentGrab.transform.position = palms[0].transform.position + Vector3.down*2;
-			}
-		} else {
-			primCurrentGrab = null;
-			primGrabStability = 0;
-		}
-		if (secThumbStableCount > 30) {
-			
 		}
 	}
-	
 	
 	//
 	//Stability Tests
@@ -265,6 +251,6 @@ function Update () {
 	}
 	
 	//Keyboard Control
-		table.transform.Rotate(Vector3.down * Input.GetAxis ("Horizontal") * keySpeed);
+	table.transform.Rotate(Vector3.down * Input.GetAxis ("Horizontal") * keySpeed);
 	cAngle = newAngle;
 }

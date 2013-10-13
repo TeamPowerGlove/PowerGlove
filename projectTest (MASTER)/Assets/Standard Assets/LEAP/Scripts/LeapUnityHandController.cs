@@ -24,7 +24,7 @@ public class LeapUnityHandController : MonoBehaviour
 	public GameObject[]				m_fingers	= null;
 	public GameObject[]				m_hands 	= null;
 	public bool						m_DisplayHands = true;
-	
+	public int						gestureTapped = 0;
 	//These arrays allow us to use our game object arrays much like pools.
 	//When a new hand/finger is found, we mark a game object by active
 	//by storing it's id, and when it goes out of scope we make the
@@ -77,9 +77,10 @@ public class LeapUnityHandController : MonoBehaviour
 		LeapInput.HandFound += new LeapInput.HandFoundHandler(OnHandFound);
 		LeapInput.HandLost += new LeapInput.ObjectLostHandler(OnHandLost);
 		LeapInput.HandUpdated += new LeapInput.HandUpdatedHandler(OnHandUpdated);
-		LeapInput.PointableFound += new LeapInput.PointableFoundHandler(OnPointableFound);
+		LeapInput.PointableFound += new 	LeapInput.PointableFoundHandler(OnPointableFound);
 		LeapInput.PointableLost += new LeapInput.ObjectLostHandler(OnPointableLost);
 		LeapInput.PointableUpdated += new LeapInput.PointableUpdatedHandler(OnPointableUpdated);
+		LeapInput.GestureTap += new LeapInput.GestureTapHandler(OnGestureTap);
 		
 		//do a pass to hide the objects.
 		foreach( GameObject palm in m_palms )
@@ -95,6 +96,9 @@ public class LeapUnityHandController : MonoBehaviour
 	//When an object is found, we find our first inactive game object, activate it, and assign it to the found id
 	//When lost, we deactivate the object & set it's id to -1
 	//When updated, load the new data
+	void OnGestureTap(Gesture g) {
+		gestureTapped = g.Id;
+	}
 	void OnPointableUpdated( Pointable p )
 	{
 		int index = Array.FindIndex(m_fingerIDs, id => id == p.Id);
@@ -119,7 +123,7 @@ public class LeapUnityHandController : MonoBehaviour
 		{
 			updatePointable( Pointable.Invalid, m_fingers[index] );
 			m_fingerIDs[index] = -1;
-		}
+		} 
 	}
 
 	void OnHandFound( Hand h )

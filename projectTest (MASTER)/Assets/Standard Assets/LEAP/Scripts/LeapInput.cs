@@ -25,6 +25,7 @@ public static class LeapInput
 	public static bool EnableTranslation = true;
 	public static bool EnableRotation = true;
 	public static bool EnableScaling = false;
+	public static bool GesturesEnabled = false;
 	/// <summary>
 	/// Delegates for the events to be dispatched.  
 	/// </summary>
@@ -33,6 +34,7 @@ public static class LeapInput
 	public delegate void HandFoundHandler( Hand h );
 	public delegate void HandUpdatedHandler( Hand h );
 	public delegate void ObjectLostHandler( int id );
+	public delegate void GestureTapHandler(Gesture g);
 	
 	/// <summary>
 	/// Event delegates are trigged every frame in the following order:
@@ -43,6 +45,8 @@ public static class LeapInput
 	public static event PointableUpdatedHandler PointableUpdated;
 	public static event ObjectLostHandler PointableLost;
 	
+	public static event GestureTapHandler GestureTap;
+	
 	public static event HandFoundHandler HandFound;
 	public static event HandUpdatedHandler HandUpdated;
 	public static event ObjectLostHandler HandLost;
@@ -51,18 +55,23 @@ public static class LeapInput
 	{
 		get { return m_Frame; }
 	}
-	
 	public static void Update() 
 	{	
+		
+		
 		if( m_controller != null )
 		{
-			
+			if(!GesturesEnabled) {
+				m_controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
+			}
 			Frame lastFrame = m_Frame == null ? Frame.Invalid : m_Frame;
 			m_Frame	= m_controller.Frame();
 			
+			DispatchGestures (Frame);
 			DispatchLostEvents(Frame, lastFrame);
 			DispatchFoundEvents(Frame, lastFrame);
 			DispatchUpdatedEvents(Frame, lastFrame);
+			
 		}
 	}
 	
@@ -78,7 +87,15 @@ public static class LeapInput
 	//Private variables
 	static Leap.Controller 		m_controller	= new Leap.Controller();
 	static Leap.Frame			m_Frame			= null;
-	
+	private static void DispatchGestures(Frame newFrame) {
+		foreach (Gesture gesture in newFrame.Gestures())
+        {
+			 if(gesture.Type == Gesture.GestureType.TYPEKEYTAP)
+                {
+					GestureTap(gesture);
+				}
+		}
+	}
 	private static void DispatchLostEvents(Frame newFrame, Frame oldFrame)
 	{
 		foreach( Hand h in oldFrame.Hands )

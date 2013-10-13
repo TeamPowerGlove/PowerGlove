@@ -28,11 +28,13 @@ public class LeapUnityBridge : MonoBehaviour
 	public bool m_UseFixedUpdate = false; //If true, calls LeapInput.Update from FixedUpdate instead of Update
 	public bool m_ShowInspectorFingers = true; //If false, hides the hand game objects in the inspector.
 	public bool m_ShowJoints = true;
+	public int tapped = 0;
 	public GameObject m_InputParent; //The parent of the hand objects for motion.  Useful 
 	public GameObject m_FingerTemplate; //The template object to use for the fingers. Must have Tags set correctly
 	public GameObject m_PalmTemplate; //The template object to use for the palms.
 	public static bool test = true;
 	private static bool m_Created = false;
+	public int tapID = 0;
 	public static LeapUnityHandController behavior;
 	void Awake()
 	{
@@ -93,6 +95,7 @@ public class LeapUnityBridge : MonoBehaviour
 		behavior.m_palms = new GameObject[2];
 		behavior.m_fingers = new GameObject[10];
 		behavior.m_hands = new GameObject[3]; //extra 'invalid' hand for grouping purposes
+		tapped = behavior.gestureTapped;
 		
 		for( int i = 0; i < behavior.m_hands.Length; i++ )
 		{

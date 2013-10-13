@@ -13,7 +13,6 @@ var hitDist = 12;
 var table:GameObject;
 
 
-
 function Start () {
 	tracking = new Vector3[300];
 	trackingB = new Vector3[300];
@@ -79,3 +78,4 @@ function Update () {
 	}	
 	var dist:Vector3 = jsLeap.palms[0].transform.position - jsLeap.palms[1].transform.position;
 }
+
