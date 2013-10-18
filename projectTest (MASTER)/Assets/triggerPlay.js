@@ -1,4 +1,4 @@
-# pragma strict
+#pragma strict
 var jsLeap: JSLeap;
 var tracking: Vector3[];
 var trackingB: Vector3[];
@@ -11,9 +11,6 @@ var primPaint = null;
 var count = 0;
 var hitDist = 12;
 var table: GameObject;
-
-
-
 function Start() {
 	tracking = new Vector3[300];
 	trackingB = new Vector3[300];
