@@ -37,22 +37,22 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ColorMatch.js" />
-     <Compile Include="Assets\DestroyAlike.js" />
-     <Compile Include="Assets\Grab.js" />
-     <Compile Include="Assets\KeyboardControl.js" />
      <Compile Include="Assets\Scripts\ButtonTest.js" />
+     <Compile Include="Assets\Scripts\ColorMatch.js" />
+     <Compile Include="Assets\Scripts\DestroyAlike.js" />
+     <Compile Include="Assets\Scripts\Grab.js" />
      <Compile Include="Assets\Scripts\JSLeap.js" />
+     <Compile Include="Assets\Scripts\KeyboardControl.js" />
+     <Compile Include="Assets\Scripts\SphereGame.js" />
      <Compile Include="Assets\Scripts\selfDestruct.js" />
-     <Compile Include="Assets\SphereGame.js" />
-     <Compile Include="Assets\triggerPlay.js" />
+     <Compile Include="Assets\Scripts\triggerPlay.js" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
