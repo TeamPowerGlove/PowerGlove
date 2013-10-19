@@ -15,9 +15,7 @@ var lastPos:Vector3;
 var grabPow:int;
 var throwPow:int;
 
-//More Demo
-//Still demoing github 
-//More demo
+//This is branch 4
 function Start () {
 	selfShader = gameObject.GetComponentInChildren(typeof(Renderer));
 	changeColor(baseColor);
