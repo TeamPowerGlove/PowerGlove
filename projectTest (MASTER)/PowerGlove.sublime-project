@@ -1,50 +1,50 @@
 {
-	"folders":
-	[
-		{
-			"file_exclude_patterns":
-			[
-				"Assembly-CSharp-firstpass-vs.csproj",
-				"Assembly-CSharp-firstpass.csproj",
-				"Assembly-CSharp-firstpass.pidb",
-				"Assembly-UnityScript-Editor-vs.unityproj",
-				"Assembly-UnityScript-Editor.pidb",
-				"Assembly-UnityScript-Editor.unityproj",
-				"Assembly-UnityScript-firstpass-vs.unityproj",
-				"Assembly-UnityScript-firstpass.pidb",
-				"Assembly-UnityScript-firstpass.unityproj",
-				"Assembly-UnityScript-vs.unityproj",
-				"Assembly-UnityScript.pidb",
-				"Assembly-UnityScript.unityproj",
-				"PowerGlove.sublime-project",
-				"projectTest (MASTER)-csharp.sln",
-				"projectTest (MASTER).sln",
-				"projectTest (MASTER).userprefs"
-			],
-			"folder_exclude_patterns":
-			[
-				"Temp",
-				"ProjectSettings"
-			],
-			"follow_symlinks": true,
-			"path": "D:\\DATA\\ARCH\\SGD\\PowerGlove\\projectTest (MASTER)"
-		}
-	],
+	"folders": [{
+		"file_exclude_patterns": [
+			"Assembly-CSharp-firstpass-vs.csproj",
+			"Assembly-CSharp-firstpass.csproj",
+			"Assembly-CSharp-firstpass.pidb",
+			"Assembly-UnityScript-Editor-vs.unityproj",
+			"Assembly-UnityScript-Editor.pidb",
+			"Assembly-UnityScript-Editor.unityproj",
+			"Assembly-UnityScript-firstpass-vs.unityproj",
+			"Assembly-UnityScript-firstpass.pidb",
+			"Assembly-UnityScript-firstpass.unityproj",
+			"Assembly-UnityScript-vs.unityproj",
+			"Assembly-UnityScript.pidb",
+			"Assembly-UnityScript.unityproj",
+			"PowerGlove.sublime-project",
+			"projectTest (MASTER)-csharp.sln",
+			"projectTest (MASTER).sln",
+			"projectTest (MASTER).userprefs"
+		],
+		"folder_exclude_patterns": [
+			"Temp",
+			"ProjectSettings"
+		],
+		"follow_symlinks": true,
+		"path": "D:/DATA/ARCH/SGD/PowerGlove/projectTest(MASTER)"
+	}],
 
-	"settings":
-     {
-     "completesharp_assemblies":
-     [
-     "C:/Program Files/Unity/Editor/Data/ManagedUnityEngine.dll",
-     "C:/Program Files/Unity/Editor/Data/ManagedUnityEditor.dll",
-     "C:/Program Files/Unity/Editor/Data/Mono/lib/mono/unity/UnityScript.dll",
-     "C:/Program Files/Unity/Editor/Data/Mono/lib/mono/unity/System.Core.dll",
-     "C:/Program Files/Unity/Editor/Data/Mono/lib/mono/unity/System.dll",
-     "C:/Program Files/Unity/Editor/Data/Managed/nunit.framework.dll",
-     "C:/Users/Public/Documents/Unity Projects/PowerGlove/projectTest (MASTER)/Library/ScriptAssemblies/Assembly-CSharp.dll",
-     "C:/Users/Public/Documents/Unity Projects/PowerGlove/projectTest (MASTER)/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll",
-     "C:/Users/Public/Documents/Unity Projects/PowerGlove/projectTest (MASTER)/Library/ScriptAssemblies/Assembly-UnityScript-Editor.dll",
-     "C:/Program Files/Unity/Editor/Data/Mono/lib/mono/2.0mscorlib.dll"
-     ]
- 	}
+	"settings": {
+		/*
+		"C:/Program Files (x86)/Unity/Editor/DataManaged/UnityEngine.dll",
+        "C:/Program Files (x86)/Unity/Editor/Data/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll",
+        "C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/UnityScript.dll",
+        "C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/System.Core.dll",
+        "C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/System.dll",
+        "C:/Program Files (x86)/Unity/Editor/Data/Managed/nunit.framework.dll",
+        "C:/Users/michi/Documents/Unity/New Project 1/Library/ScriptAssemblies/Assembly-UnityScript.dll"
+        */
+		"completesharp_assemblies": [
+			"C:/Program Files (x86)/Unity/Editor/Data/ManagedUnityEngine.dll",
+			"C:/Program Files (x86)/Unity/Editor/Data/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll",
+			"C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/UnityScript.dll",
+			"C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/System.Core.dll",
+	        "C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/unity/System.dll",
+        	"C:/Program Files (x86)/Unity/Editor/Data/Managed/nunit.framework.dll",
+       	 	"C:/Users/Public/Documents/Unity Projects/PowerGlove/ProjectTest (MASTER)/Library/ScriptAssemblies/Assembly-UnityScript.dll",
+			"C:/Program Files (x86)/Unity/Editor/Data/Mono/lib/mono/2.0mscorlib.dll"
+		]
+	}
 }

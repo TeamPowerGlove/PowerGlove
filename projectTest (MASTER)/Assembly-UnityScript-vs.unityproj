@@ -46,10 +46,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\ButtonTest.js" />
      <Compile Include="Assets\Scripts\ColorMatch.js" />
+     <Compile Include="Assets\Scripts\CoreShared\Grab.js" />
+     <Compile Include="Assets\Scripts\CoreShared\JSLeap.js" />
+     <Compile Include="Assets\Scripts\CoreShared\KeyboardControl.js" />
      <Compile Include="Assets\Scripts\DestroyAlike.js" />
-     <Compile Include="Assets\Scripts\Grab.js" />
-     <Compile Include="Assets\Scripts\JSLeap.js" />
-     <Compile Include="Assets\Scripts\KeyboardControl.js" />
      <Compile Include="Assets\Scripts\SphereGame.js" />
      <Compile Include="Assets\Scripts\selfDestruct.js" />
      <Compile Include="Assets\Scripts\triggerPlay.js" />
