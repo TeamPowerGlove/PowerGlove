@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\SphereGame.js" />
      <Compile Include="Assets\Scripts\selfDestruct.js" />
      <Compile Include="Assets\Scripts\triggerPlay.js" />
+     <Compile Include="Assets\SpawnFruit.js" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />

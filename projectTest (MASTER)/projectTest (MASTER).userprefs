@@ -1,15 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Grab.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SpawnFruit.js">
     <Files>
-      <File FileName="Assets\Scripts\Grab.js" Line="17" Column="25" />
-      <File FileName="..\..\..\PLAY\Unity\leapdj\Assets\CubePop.js" Line="10" Column="29" />
+      <File FileName="Assets\SpawnFruit.js" Line="12" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ClassPad">
-        <State expanded="True" selected="True">
-          <Node name="Assembly-UnityScript" expanded="True" />
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
