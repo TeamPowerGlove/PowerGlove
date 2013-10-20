@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FruitSpawnScript.js" />
      <Compile Include="Assets\Scripts\ButtonTest.js" />
      <Compile Include="Assets\Scripts\ColorMatch.js" />
      <Compile Include="Assets\Scripts\CoreShared\Grab.js" />

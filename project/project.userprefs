@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SpawnFruit.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FruitSpawnScript.js">
     <Files>
-      <File FileName="Assets\SpawnFruit.js" Line="29" Column="2" />
+      <File FileName="Assets\FruitSpawnScript.js" Line="18" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

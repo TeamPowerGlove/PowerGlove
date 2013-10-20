@@ -1,4 +1,5 @@
-﻿#pragma strict
+﻿/**
+#pragma strict
 var spawnables:GameObject[];
 var count = 0;
 var bigPoof:GameObject;
@@ -27,3 +28,4 @@ function Update () {
 		newMolecule.layer = 3;
 	}
 }
+*/
