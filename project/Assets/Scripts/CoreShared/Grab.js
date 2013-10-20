@@ -6,11 +6,12 @@ var baseColor:Color;
 var highlightColor:Color = new Color(220/255.0,100/255.0,80/255.0);
 var dupable:boolean;
 var selfShader:Renderer;
-var JSLeap:JSLeap;
+var jsLeap:JSLeap;
 var anchorPoint:Vector3;
 var v:Vector3;
 var offset:Vector3;
 var lastPos:Vector3;
+var throwable=false;
 
 var grabPow:int;
 var throwPow:int;
@@ -19,7 +20,7 @@ function Start () {
 	selfShader = gameObject.GetComponentInChildren(typeof(Renderer));
 	changeColor(baseColor);
 	lastPos = transform.position;
-	//JSLeap = GameObject.Find("JSLeapController").GetComponent(typeof(JSLeap));
+	jsLeap = GameObject.Find("JSLeapController").GetComponent(typeof(JSLeap));
 }
 function Update() {
 	if (grabbed) {
@@ -39,10 +40,13 @@ function Update() {
 		lastPos = transform.position;
 		return;
 	} else {
-		transform.position += v;
-		var throwFriction = .91;
-		v = (transform.position - lastPos) * throwFriction;
-		
+		Debug.Log(jsLeap.fingerCount);
+		if(!(jsLeap.fingerCount <= 2 && jsLeap.palmCount == 2) && throwable) {
+			//Apply inertial effects
+			transform.position += v;
+			var throwFriction = .91;
+			v = (transform.position - lastPos) * throwFriction;
+		}
 		lastPos = transform.position;
 	}
 	if (hoverCount == 0) return;
