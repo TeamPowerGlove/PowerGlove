@@ -33,16 +33,16 @@ function Update() {
 		var grabFriction = .94;
 		var diff: Vector3 = (transform.position - anchorPoint);
 		var grabPow = 1.3;
-		transform.position -= (diff * Mathf.Pow(diff.magnitude, grabPow) * 0.05);
+		transform.position -= (diff * Mathf.Pow(diff.magnitude, grabPow) * 0.05); //Spring
 		transform.position += v;
 		v = (transform.position - lastPos) * grabFriction;
 		lastPos = transform.position;
 		return;
 	} else {
-		var throwPow = 1.3;
-		transform.position -= (diff * Mathf.Pow(diff.magnitude, throwPow) * 0.05);
+		transform.position += v;
 		var throwFriction = .91;
 		v = (transform.position - lastPos) * throwFriction;
+		
 		lastPos = transform.position;
 	}
 	if (hoverCount == 0) return;
