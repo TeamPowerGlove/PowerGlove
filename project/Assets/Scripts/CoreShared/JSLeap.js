@@ -26,7 +26,9 @@ var primCurrentGrab:GameObject;
 var secCurrentGrab:GameObject;
 var primGrabStability:int;
 var secGrabStability:int;
-var cGrabbed:Grab;
+var cGrab:Grab;
+var cSpin:Spin;
+var cType:int = -1;
 var hovered = false;
 var tapID = 0;
 //These variables public and actually make sense to modify in real time. Maybe a convention would be to precede them?
@@ -161,64 +163,106 @@ function Update () {
 			Instantiate(tapPoof,palms[0].transform.localPosition, Quaternion.identity);
 		}
 	//
-	//Grab Controls - Raycasting and modfying cGrabbed, ...
+	//Grab Controls - Raycasting and modfying cGrab, ...
 	//
-	
-	
-	var hit : RaycastHit;
-	if(cGrabbed != null) {
-		//cGrabbed.gameObject.transform.position = palms[0].transform.position + grabOffset;
-		cGrabbed.handUpdate(palms[0].transform.position);
-		if (primCount >3) {
-			cGrabbed.grabbed = false;
-			cGrabbed = null;
+
+
+	var hit: RaycastHit;
+	Debug.Log("Derp");
+	if (cType != -1) {
+		//cGrab.gameObject.transform.position = palms[0].transform.position + grabOffset;
+		if (cType == 0) cGrab.handUpdate(palms[0].transform.position);
+		if (cType == 1) cSpin.handUpdate(palms[0].transform.position);
+
+		if (primCount > 3) {
+			Debug.Log("Derp");
+			if (cType == 0) {
+				cGrab.grabbed = false;
+				cGrab = null;
+			} else if (cType == 1) {
+				cSpin.grabbed = false;
+				cSpin = null;
+			}
+			cType = -1;
+		}
+	}
+
+	if (cType == -1 && primCount > 3) { //primary hover check
+
+		if (Physics.Raycast(palms[0].transform.position, -palms[0].transform.up, hit, 5.0)) {
+			var grab1: Grab = hit.transform.gameObject.GetComponent(typeof(Grab));
+			var spin1: Spin = hit.transform.gameObject.GetComponent(typeof(Spin));
+			var spin2: Spin = hit.transform.parent.gameObject.GetComponent(typeof(Spin));
+			if (grab1 != null) grab1.hover();
+			if (spin1 != null) spin1.hover();
+			if (spin2 != null) spin2.hover();
 		}
 	}
 	
-	if (cGrabbed == null && primCount>3) {
-		if(Physics.Raycast(palms[0].transform.position,-palms[0].transform.up, hit, 5.0)) {
-			//Debug.Log(hit.transform.gameObject.name);
-			//Debug.Log(hit.transform.gameObject.GetComponent(typeof(Grab)));
-			hit.transform.gameObject.GetComponent(typeof(Grab)).hover();
-			//Debug.DrawLine(palms[0].transform.position,hit.transform.position);
-			
+	if (cType == -1 && secCount > 3) { //secondary hover check
+		if (Physics.Raycast(palms[1].transform.position, -palms[0].transform.up, hit, 5.0)) {
+			//hit.transform.gameObject.GetComponent(typeof(Grab)).hover();
+
 		}
 	}
-	
-	if (cGrabbed == null && primCount <=2) {
+
+	if (cType == -1 && primCount <= 2) {
 		var grabby = GameObject.FindGameObjectsWithTag("Grabby");
-		var bestCount:float = 0;//Return the 'most selected' object, i.e., that which the palm has most hovered over
-		var bestGrab:Grab;
-		var bestObj:GameObject;
-		for (var grabPotential:GameObject in grabby) {
-			var tmpGrab:Grab = grabPotential.GetComponent(typeof(Grab));
-			
-			if(tmpGrab.hoverCount>bestCount) {
+		var spinny = GameObject.FindGameObjectsWithTag("Spinny");
+		var bestCount: float = 0; //Return the 'most selected' object, i.e., that which the palm has most hovered over
+		var bestGrab: Grab;
+		var bestSpin: Spin;
+		var bestObj: GameObject;
+		var type: int = -1; //-1 = none 0 = grab 1 = spin
+		for (var grabPotential: GameObject in grabby) {
+			var tmpGrab: Grab = grabPotential.GetComponent(typeof(Grab));
+
+			if (tmpGrab.hoverCount > bestCount) {
 				bestObj = grabPotential;
 				bestCount = tmpGrab.hoverCount;
 				bestGrab = tmpGrab;
+				type = 0;
 			}
 			//break;
 		}
-		if(bestCount>0) {
-			if(bestGrab.dupable) {
+		for (var spinPotential: GameObject in spinny) {
+			var tmpSpin: Spin = spinPotential.GetComponent(typeof(Spin));
 
-				var newObj:GameObject = Instantiate(bestObj,bestObj.transform.position,new Quaternion(0,0,0,0));
+			if (tmpSpin.hoverCount > bestCount) {
+				bestObj = spinPotential;
+				bestCount = tmpSpin.hoverCount;
+				bestSpin = tmpSpin;
+				type = 1;
+			}
+		}
+		if (type >= 0) { //An object is to be grabbed
+			if (type == 0 && bestGrab.dupable) { // only grabs can be duped
+
+				var newObj: GameObject = Instantiate(bestObj, bestObj.transform.position, new Quaternion(0, 0, 0, 0));
 				newObj.transform.parent = table.transform;
 				newObj.GetComponent(typeof(Grab)).dupable = false;
 				newObj.GetComponent(typeof(Grab)).grabbed = true;
-				cGrabbed = newObj.GetComponent(typeof(Grab))	;
+				cGrab = newObj.GetComponent(typeof(Grab));
 				var grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
-				cGrabbed.handUpdate(palms[0].transform.position);
-				cGrabbed.offset = grabOffset;
+				cGrab.handUpdate(palms[0].transform.position);
+				cGrab.offset = grabOffset;
+				cType = type;
 			} else {
-				cGrabbed = bestGrab;
-				cGrabbed.grabbed = true;
-				cGrabbed.dupable = false;
-				
-				grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
-				cGrabbed.handUpdate(palms[0].transform.position);
-				cGrabbed.offset = grabOffset;
+				if(type == 0) {
+					cGrab = bestGrab;
+					cGrab.grabbed = true;
+					cGrab.dupable = false;
+					cType = type;
+					//Grab objects get an offset
+					grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
+					cGrab.offset = grabOffset;
+					cGrab.handUpdate(palms[0].transform.position);
+				} else if (type == 1) {
+					cSpin = bestSpin;
+					cSpin.grabbed = true;
+					cSpin.handUpdate(palms[0].transform.position);
+					cType = type;
+				}
 			}
 		}
 	}

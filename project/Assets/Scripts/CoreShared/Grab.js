@@ -40,7 +40,6 @@ function Update() {
 		lastPos = transform.position;
 		return;
 	} else {
-		Debug.Log(jsLeap.fingerCount);
 		if(!(jsLeap.fingerCount <= 2 && jsLeap.palmCount == 2) && throwable) {
 			//Apply inertial effects
 			transform.position += v;
