@@ -196,7 +196,11 @@ public class LeapUnityHandController : MonoBehaviour
 		
 		if( leapHand.IsValid )
 		{
-			palmObject.transform.localPosition = leapHand.PalmPosition.ToUnityTranslated();
+				palmObject.transform.localPosition = leapHand.PalmPosition.ToUnityTranslated();
+			  // palmObject.transform.localRotation = UnityEngine.Random.rotationUniform;
+      			Vector3 vPalmNorm = leapHand.PalmNormal.ToUnity();
+      			Vector3 vPalmDir = leapHand.Direction.ToUnity();
+      			palmObject.transform.localRotation = Quaternion.FromToRotation(Vector3.down, vPalmNorm)*Quaternion.FromToRotation(Vector3.forward, vPalmDir);
 		}
 	}	
 	

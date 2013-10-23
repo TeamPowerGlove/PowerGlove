@@ -176,7 +176,7 @@ function Update () {
 	}
 	
 	if (cGrabbed == null && primCount>3) {
-		if(Physics.Raycast(palms[0].transform.position,Vector3.down, hit, 5.0)) {
+		if(Physics.Raycast(palms[0].transform.position,-palms[0].transform.up, hit, 5.0)) {
 			//Debug.Log(hit.transform.gameObject.name);
 			//Debug.Log(hit.transform.gameObject.GetComponent(typeof(Grab)));
 			hit.transform.gameObject.GetComponent(typeof(Grab)).hover();
