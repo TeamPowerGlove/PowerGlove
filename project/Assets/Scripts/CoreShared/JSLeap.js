@@ -31,6 +31,8 @@ var cSpin:Spin;
 var cType:int = -1;
 var hovered = false;
 var tapID = 0;
+var widget:Widget;
+var tapsOverTime:float = 0;
 //These variables public and actually make sense to modify in real time. Maybe a convention would be to precede them?
 var grabDist = 3.0;
 var spinFactor = 3.0;
@@ -151,7 +153,7 @@ function Update () {
 	//
 	var newAngle = Mathf.Atan2(P2.z-P1.z,P2.x-P1.x);
 	var diff = newAngle - cAngle ;
-	if (fingerCount <= 2 && palmCount == 2 && diff < Mathf.PI/4) {
+	if (fingerCount <= 2 && palmCount == 2 && diff < Mathf.PI/4 && cType == -1) {
 		table.transform.Rotate(Vector3.down * diff * 180/Mathf.PI * spinFactor);
 		Debug.DrawLine(P1,P2,Color.red);
 	}
@@ -160,7 +162,14 @@ function Update () {
 	//
 		if(tapID != leapController.behavior.gestureTapped) {
 			tapID = leapController.behavior.gestureTapped;
+			tapsOverTime ++;
+		}
+		tapsOverTime -= .05;
+		if(tapsOverTime>3) {
+			tapsOverTime = 3;
 			Instantiate(tapPoof,palms[0].transform.localPosition, Quaternion.identity);
+			widget.deselect();
+			
 		}
 	//
 	//Grab Controls - Raycasting and modfying cGrab, ...
@@ -168,14 +177,12 @@ function Update () {
 
 
 	var hit: RaycastHit;
-	Debug.Log("Derp");
 	if (cType != -1) {
 		//cGrab.gameObject.transform.position = palms[0].transform.position + grabOffset;
-		if (cType == 0) cGrab.handUpdate(palms[0].transform.position);
-		if (cType == 1) cSpin.handUpdate(palms[0].transform.position);
+		if (cType == 0) cGrab.handUpdate(palms[0].transform.position,palms[0].transform.rotation.eulerAngles.y);
+		if (cType == 1) cSpin.handUpdate(palms[0].transform.position,palms[0].transform.rotation.eulerAngles.y);
 
 		if (primCount > 3) {
-			Debug.Log("Derp");
 			if (cType == 0) {
 				cGrab.grabbed = false;
 				cGrab = null;
@@ -244,8 +251,10 @@ function Update () {
 				newObj.GetComponent(typeof(Grab)).grabbed = true;
 				cGrab = newObj.GetComponent(typeof(Grab));
 				var grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
-				cGrab.handUpdate(palms[0].transform.position);
+				cGrab.handUpdate(palms[0].transform.position,palms[0].transform.rotation.eulerAngles.y);
 				cGrab.offset = grabOffset;
+				cGrab.rotOffset = palms[0].transform.rotation.eulerAngles.y;
+				widget.select(newObj);
 				cType = type;
 			} else {
 				if(type == 0) {
@@ -256,14 +265,18 @@ function Update () {
 					//Grab objects get an offset
 					grabOffset = bestGrab.gameObject.transform.position - palms[0].transform.position;
 					cGrab.offset = grabOffset;
-					cGrab.handUpdate(palms[0].transform.position);
+					cGrab.rotOffset = palms[0].transform.rotation.eulerAngles.y;
+					cGrab.handUpdate(palms[0].transform.position,palms[0].transform.rotation.eulerAngles.y);
+					widget.select(bestGrab.gameObject);
 				} else if (type == 1) {
 					cSpin = bestSpin;
 					cSpin.grabbed = true;
-					cSpin.handUpdate(palms[0].transform.position);
+					cSpin.handUpdate(palms[0].transform.position,palms[0].transform.rotation.eulerAngles.y);
 					cType = type;
 				}
 			}
+		} else { //nothing was selected
+			widget.deselect();
 		}
 	}
 	

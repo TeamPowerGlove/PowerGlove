@@ -14,7 +14,8 @@ var throwable = false;
 var cAngle:float;
 var anchorRot:Quaternion;
 var lastRot:Quaternion;
-var spinner:GameObject;
+var newGrab:boolean = true;
+var widget:Widget;
 function Start() {
 	changeColor(baseColor);
 	lastPos = transform.position;
@@ -24,6 +25,13 @@ function Start() {
 
 function Update() {
 	if (grabbed) {
+		pivot = transform.position;
+		if(newGrab) {
+			var P1 = handPoint;
+			var P2 = pivot;
+			cAngle = Mathf.Atan2(P2.z - P1.z, P2.x - P1.x); 
+			newGrab = false;
+		}
 		// if (v.magnitude <= .001) {
 		// 	lastPos = transform.position;
 		// 	v = new Vector3(0, 0, 0);
@@ -31,16 +39,19 @@ function Update() {
 		changeColor(highlightColor);
 
 		//Calculate and rotate the anchorRot (the absolute rotation of the object per the hand)
-		var P1 = handPoint;
-		var P2 = pivot;
+		P1 = handPoint;
+		P2 = pivot;
 		Debug.DrawLine(P1, P2, Color.red);
 		var newAngle = Mathf.Atan2(P2.z - P1.z, P2.x - P1.x);
 		var diff = newAngle - cAngle;
-
-		anchorRot *= Quaternion.AngleAxis(diff * 180 / Mathf.PI,Vector3.down) ;
+		var spinAmt = Quaternion.AngleAxis(diff * 180 / Mathf.PI,Vector3.down) ;
+		anchorRot *= spinAmt;
+		if(widget != null) {
+			Debug.Log("!!!");
+			widget.turnObj(spinAmt);
+		}
 		cAngle = Mathf.Atan2(P2.z - P1.z, P2.x - P1.x); //This math is identital to the table rotation stuff (although its simple to read alone)
-		spinner.transform.rotation = anchorRot;
-		var spinFriction = .99999;
+		var spinFriction = .95;
 
 		// transform.position -= (diff * Mathf.Pow(diff.magnitude, grabPow) * 0.05); //Spring
 		// transform.position += v;
@@ -49,19 +60,26 @@ function Update() {
 
 		//The next few lines are a mindfuck. Don't think about it too much. Wheee, inertia
 		var rotDiff: Quaternion = transform.rotation*Quaternion.Inverse(anchorRot);
-
-		var grabPow = 3;
-		var angle = 0.0;
-		var axis = Vector3.zero;
-		rotDiff.ToAngleAxis(angle, axis);
-		Debug.Log(angle);
-		angle *= Mathf.Pow(angle, grabPow) * 0.0001;
-		transform.rotation *= Quaternion.AngleAxis(-angle, axis); //Spring
-		transform.rotation *= omega;
-		omega = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(lastRot.eulerAngles, transform.rotation.eulerAngles), spinFriction);
+		transform.rotation = anchorRot;
+		var grabPow = 1.3;
+		var angleO = 0.0;
+		var axis = Vector3.up;
+		// rotDiff.ToAngleAxis(angle, axis);
+		angleO = rotDiff.eulerAngles.y;
+		var angle = Quaternion.Angle(Quaternion.identity,rotDiff);
+		angle *= Mathf.Pow(angle, grabPow) * 0.00001;
+		//angle *= .05;
+		
+		//transform.rotation = Quaternion.Slerp(transform.rotation, anchorRot, angle/angleO);
+		//transform.rotation *= Quaternion.AngleAxis(angle, axis); //Spring
+		////transform.rotation *= omega; //Inertia
+		////omega = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(lastRot.eulerAngles, transform.rotation.eulerAngles), spinFriction);
+		////omega *= Quaternion.Slerp(lastRot,transform.rotation,spinFriction);
+		//// omega *= Quaternion.AngleAxis(angle, axis)
 		lastRot = transform.rotation;
 		return;
 	} else {
+		newGrab = true;
 		if (!(jsLeap.fingerCount <= 2 && jsLeap.palmCount == 2) && throwable) {
 			//Apply inertial effects
 			// transform.position += v;
@@ -94,8 +112,9 @@ function changeColor(c: Color) {
 	selfShader.renderer.material.SetColor("_Color", c);
 }
 
-function handUpdate(pos: Vector3) {
+function handUpdate(pos: Vector3,rot: float) {
 	handPoint = pos;
+
 	var P1 = handPoint;
 	var P2 = pivot;
 }
