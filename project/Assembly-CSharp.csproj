@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{4BF79580-BD40-8719-DEC4-3FC42411B4D7}</ProjectGuid>
+	<ProjectGuid>{7CA597AC-799E-2D81-E8A0-0EA9A568434E}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-UnityScript</AssemblyName>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,18 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BasketScript.js" />
-     <Compile Include="Assets\FruitSpawnScript.js" />
-     <Compile Include="Assets\Scripts\ButtonTest.js" />
-     <Compile Include="Assets\Scripts\ColorMatch.js" />
-     <Compile Include="Assets\Scripts\CoreShared\Grab.js" />
-     <Compile Include="Assets\Scripts\CoreShared\JSLeap.js" />
-     <Compile Include="Assets\Scripts\CoreShared\KeyboardControl.js" />
-     <Compile Include="Assets\Scripts\DestroyAlike.js" />
-     <Compile Include="Assets\Scripts\SphereGame.js" />
-     <Compile Include="Assets\Scripts\selfDestruct.js" />
-     <Compile Include="Assets\Scripts\triggerPlay.js" />
-     <Compile Include="Assets\SpawnFruit.js" />
+     <Compile Include="Assets\CTesting.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
