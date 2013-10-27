@@ -197,12 +197,21 @@ function Update () {
 	if (cType == -1 && primCount > 3) { //primary hover check
 
 		if (Physics.Raycast(palms[0].transform.position, -palms[0].transform.up, hit, 5.0)) {
-			var grab1: Grab = hit.transform.gameObject.GetComponent(typeof(Grab));
-			var spin1: Spin = hit.transform.gameObject.GetComponent(typeof(Spin));
-			var spin2: Spin = hit.transform.parent.gameObject.GetComponent(typeof(Spin));
+			if(hit.transform.gameObject.tag == "Grabby") {
+				var grab1: Grab = hit.transform.gameObject.GetComponent(typeof(Grab));
+			} else if (hit.transform.gameObject.tag == "Spinny") {
+				var spin1: Spin = hit.transform.gameObject.GetComponent(typeof(Spin));
+				if(hit.transform.parent) {
+						var spin2: Spin = hit.transform.parent.gameObject.GetComponent(typeof(Spin));
+				}
+			} else if (hit.transform.gameObject.tag == "Animal") {
+				var animalGrab: AnimalGrab = hit.transform.gameObject.GetComponent(typeof(AnimalGrab));
+			}
+
 			if (grab1 != null) grab1.hover();
 			if (spin1 != null) spin1.hover();
 			if (spin2 != null) spin2.hover();
+			if(animalGrab != null) animalGrab.hover();
 		}
 	}
 	

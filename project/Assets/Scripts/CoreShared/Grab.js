@@ -127,7 +127,6 @@ function hover() {
 }
 
 function changeColor(c: Color) {
-	Debug.Log(selfShader.name);
 	selfShader.material.SetColor("_Color", c);
 }
 
