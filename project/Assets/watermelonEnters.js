@@ -1,4 +1,5 @@
 ﻿#pragma strict
+var watermelonPoints: int = 100;
 var scoreTracker : GameObject;
 var scoreTrackerScript : ScoreTrackerScript;
 
@@ -8,7 +9,7 @@ function Start() {
 
 function OnTriggerEnter(collider: Collider) {
 	if (collider.gameObject.name == "fruit watermelon(Clone)") {
-		scoreTrackerScript.addScore(100);
+		scoreTrackerScript.addScore(watermelonPoints);
 		Destroy(collider.gameObject);
 	}
 }		

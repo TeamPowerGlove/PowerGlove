@@ -1,12 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\watermelonEnters.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\moleculeEnters.js">
     <Files>
-      <File FileName="Assets\ScoreTrackerScript.js" Line="17" Column="14" />
+      <File FileName="Assets\moleculeEnters.js" Line="2" Column="31" />
+      <File FileName="Assets\ScoreTrackerScript.js" Line="1" Column="1" />
       <File FileName="Assets\FruitSpawnScript.js" Line="1" Column="1" />
-      <File FileName="Assets\FruitGroundCollision.js" Line="10" Column="28" />
-      <File FileName="Assets\watermelonEnters.js" Line="1" Column="15" />
-      <File FileName="Assets\moleculeEnters.js" Line="1" Column="15" />
+      <File FileName="Assets\FruitGroundCollision.js" Line="1" Column="1" />
+      <File FileName="Assets\watermelonEnters.js" Line="2" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
