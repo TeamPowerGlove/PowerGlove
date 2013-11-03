@@ -44,8 +44,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BasketScript.js" />
+     <Compile Include="Assets\FruitGroundCollision.js" />
      <Compile Include="Assets\FruitSpawnScript.js" />
+     <Compile Include="Assets\ScoreTrackerScript.js" />
      <Compile Include="Assets\Scripts\ButtonTest.js" />
      <Compile Include="Assets\Scripts\ColorMatch.js" />
      <Compile Include="Assets\Scripts\CoreShared\Grab.js" />
@@ -56,6 +57,8 @@
      <Compile Include="Assets\Scripts\selfDestruct.js" />
      <Compile Include="Assets\Scripts\triggerPlay.js" />
      <Compile Include="Assets\SpawnFruit.js" />
+     <Compile Include="Assets\moleculeEnters.js" />
+     <Compile Include="Assets\watermelonEnters.js" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />

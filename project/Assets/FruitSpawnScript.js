@@ -1,5 +1,6 @@
 ﻿#pragma strict
 var spawnables:GameObject[];
+
 var count = 0;
 var spawnInterval:float = 5.0;
 var lastLocation:int =0; //0: Last location was left, 1: center, 2: right
@@ -8,7 +9,7 @@ private var spawnOnCenter:Vector3 = new Vector3(0.15, 7.00, 6.75);
 private var spawnOnRight:Vector3 = new Vector3(5.00, 6.75, 4.75);
 private var spawnLocations:Vector3[] = [spawnOnLeft, spawnOnCenter, spawnOnRight];
 //An array containing three different locations fruits can spawn at.
-var fruitList:Array = new Array();
+
 
 function Start () {
 
@@ -39,6 +40,5 @@ function FixedUpdate () {
 		}	
 		
 		var newFruit:GameObject = Instantiate(spawnables[spawnID],spawnLocations[locationID],Random.rotationUniform);
-		fruitList.push(newFruit);
 	}
 }
