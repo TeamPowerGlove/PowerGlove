@@ -19,7 +19,7 @@ function Start() {
 }
 
 function Update() {
-	if (jsLeap.primThumb == null) {
+	if (!jsLeap.thumbs[0]) {
 		stableCount -= 4;
 		if (stableCount <= 0) {
 			stableCount = 0;
@@ -32,22 +32,22 @@ function Update() {
 			stableCount = 50;
 		}
 	}
-	if (jsLeap.secCount == 1 && jsLeap.primCount >= 3) {
+	if (jsLeap.fCount[1] == 1 && jsLeap.fCount[0] >= 3) {
 		painting = true;
 		primPaint = true;
 		paintFinger = jsLeap.primFingers[0];
 	}
-	if (jsLeap.primCount == 5 && jsLeap.secCount == 1) {
+	if (jsLeap.fCount[0] == 5 && jsLeap.fCount[1] == 1) {
 		painting = true;
 		primPaint = false;
 
 		paintFinger = jsLeap.secFingers[0];
 	}
-	if (primPaint && jsLeap.secCount <= 3) {
+	if (primPaint && jsLeap.fCount[1] <= 3) {
 		painting = false;
 		paintFinger = null;
 	}
-	if (!primPaint && jsLeap.primCount <= 3) {
+	if (!primPaint && jsLeap.fCount[0] <= 3) {
 		painting = false;
 		paintFinger = null;
 	}

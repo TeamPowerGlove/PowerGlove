@@ -191,8 +191,8 @@ public class LeapUnityHandController : MonoBehaviour
 	{
 		updateParent( palmObject, leapHand.Id);
 		
-		//SetVisible(palmObject, leapHand.IsValid);
-		//SetCollidable(palmObject, leapHand.IsValid);
+		SetVisible(palmObject, leapHand.IsValid);
+		SetCollidable(palmObject, leapHand.IsValid);
 		
 		if( leapHand.IsValid )
 		{

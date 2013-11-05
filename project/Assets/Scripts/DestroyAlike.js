@@ -12,16 +12,16 @@ function Update () {
 
 function OnCollisionEnter(c:Collision) {
 	if(!enable || species == -1) return;
-	if(c.other.CompareTag(this.tag)) {
-		Debug.Log(c.other.GetComponent(typeof(DestroyAlike)).species);
-		if(c.other.GetComponent(typeof(DestroyAlike)).enable && c.other.GetComponent(typeof(DestroyAlike)).species == species) {
+	if(c.transform.gameObject.CompareTag(this.tag)) {
+		Debug.Log(c.transform.gameObject.GetComponent(typeof(DestroyAlike)).species);
+		if(c.transform.gameObject.GetComponent(typeof(DestroyAlike)).enable && c.transform.gameObject.GetComponent(typeof(DestroyAlike)).species == species) {
 		Destroy(this.gameObject);
-		Destroy(c.other.gameObject);
-		Instantiate(bigPoof,(this.transform.position + c.other.transform.position) / 2, Quaternion.identity);
+		Destroy(c.transform.gameObject.gameObject);
+		Instantiate(bigPoof,(this.transform.position + c.transform.gameObject.transform.position) / 2, Quaternion.identity);
 		}	else {
-		gameObject.GetComponent(typeof(Grab)).changeColor(Color.black);
-		gameObject.GetComponent(typeof(Grab)).baseColor = Color.black;
-		species = -1;
+		// gameObject.GetComponent(typeof(Grab)).changeColor(Color.black);
+		// gameObject.GetComponent(typeof(Grab)).baseColor = Color.black;
+		// species = -1;
 		}
 	} 
 }
