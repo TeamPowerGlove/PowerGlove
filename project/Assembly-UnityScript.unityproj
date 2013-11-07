@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Clock.js" />
      <Compile Include="Assets\Scripts\ButtonTest.js" />
      <Compile Include="Assets\Scripts\ColorMatch.js" />
      <Compile Include="Assets\Scripts\CoreShared\Grab.js" />
@@ -55,6 +56,7 @@
      <Compile Include="Assets\Scripts\Spin.js" />
      <Compile Include="Assets\Scripts\selfDestruct.js" />
      <Compile Include="Assets\Scripts\triggerPlay.js" />
+     <Compile Include="Assets\Trigger.js" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
