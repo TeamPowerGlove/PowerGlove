@@ -35,7 +35,7 @@ public static class LeapInput
 	public delegate void HandUpdatedHandler( Hand h );
 	public delegate void ObjectLostHandler( int id );
 	public delegate void GestureTapHandler(Gesture g);
-	
+	public delegate void GestureCircleHandler(CircleGesture g);
 	/// <summary>
 	/// Event delegates are trigged every frame in the following order:
 	/// Hand Found, Pointable Found, Hand Updated, Pointable Updated,
@@ -46,6 +46,7 @@ public static class LeapInput
 	public static event ObjectLostHandler PointableLost;
 	
 	public static event GestureTapHandler GestureTap;
+	public static event GestureCircleHandler GestureCircle;
 	
 	public static event HandFoundHandler HandFound;
 	public static event HandUpdatedHandler HandUpdated;
@@ -63,6 +64,7 @@ public static class LeapInput
 		{
 			if(!GesturesEnabled) {
 				m_controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
+				m_controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
 			}
 			Frame lastFrame = m_Frame == null ? Frame.Invalid : m_Frame;
 			m_Frame	= m_controller.Frame();
@@ -93,6 +95,10 @@ public static class LeapInput
 			 if(gesture.Type == Gesture.GestureType.TYPEKEYTAP)
                 {
 					GestureTap(gesture);
+				}
+			if(gesture.Type == Gesture.GestureType.TYPECIRCLE)
+				{
+					GestureCircle(new CircleGesture(gesture));
 				}
 		}
 	}

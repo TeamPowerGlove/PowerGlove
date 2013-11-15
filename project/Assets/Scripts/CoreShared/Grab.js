@@ -16,7 +16,7 @@ var snapAngles = new Array();
 var cubeSize = .5;
 
 function Start () {
-	cubeSize = .4;
+	cubeSize = .35;
 	lastPos = transform.position;
 	jsLeap = GameObject.Find("JSLeapController").GetComponent(typeof(JSLeap));
 }
@@ -26,21 +26,23 @@ function Update() {
 			//Build snapPoint list
 			
 			snapPoints = new Array();
-			var grabby = GameObject.FindGameObjectsWithTag("Grabby");
-			for (var grabObj:GameObject in grabby) {
-				if(grabObj == gameObject) break;
-				snapPoints.push(grabObj.transform.position+grabObj.transform.up*cubeSize);
-				snapPoints.push(grabObj.transform.position-grabObj.transform.up*cubeSize);
-				snapPoints.push(grabObj.transform.position+grabObj.transform.right*cubeSize);
-				snapPoints.push(grabObj.transform.position-grabObj.transform.right*cubeSize);
-				snapPoints.push(grabObj.transform.position+grabObj.transform.forward*cubeSize);
-				snapPoints.push(grabObj.transform.position-grabObj.transform.forward*cubeSize);
-				snapAngles.push(grabObj.transform.rotation);
-				snapAngles.push(grabObj.transform.rotation);
-				snapAngles.push(grabObj.transform.rotation);
-				snapAngles.push(grabObj.transform.rotation);
-				snapAngles.push(grabObj.transform.rotation);
-				snapAngles.push(grabObj.transform.rotation);
+			var snappy = GameObject.FindGameObjectsWithTag("Snappy");
+			Debug.Log("ASDASD");
+			for (var snapObj:GameObject in snappy) {
+				Debug.Log("SNAPPP");
+				if(snapObj == gameObject) break;
+				snapPoints.push(snapObj.transform.position+snapObj.transform.up*cubeSize);
+				snapPoints.push(snapObj.transform.position-snapObj.transform.up*cubeSize);
+				snapPoints.push(snapObj.transform.position+snapObj.transform.right*cubeSize);
+				snapPoints.push(snapObj.transform.position-snapObj.transform.right*cubeSize);
+				snapPoints.push(snapObj.transform.position+snapObj.transform.forward*cubeSize);
+				snapPoints.push(snapObj.transform.position-snapObj.transform.forward*cubeSize);
+				snapAngles.push(snapObj.transform.rotation);
+				snapAngles.push(snapObj.transform.rotation);
+				snapAngles.push(snapObj.transform.rotation);
+				snapAngles.push(snapObj.transform.rotation);
+				snapAngles.push(snapObj.transform.rotation);
+				snapAngles.push(snapObj.transform.rotation);
 			}
 			for (var snapPoint:Vector3 in snapPoints) {
 				Debug.DrawLine(snapPoint,snapPoint+Vector3.up*.05,Color.red);
@@ -52,13 +54,13 @@ function Update() {
 			v = new Vector3(0, 0, 0);
 		}
 
-		
+		firstGrabFrame = false;
 
 		//transform.position = anchorPoint; //This would be absolute positioning
-		var grabFriction = .94;
+		var grabFriction = .6;
 		var diff: Vector3 = (transform.position - anchorPoint);
-		var grabPow = 1.3;
-		transform.position -= (diff * Mathf.Pow(diff.magnitude, grabPow) * 0.05); //Spring
+		var grabPow = 1;
+		transform.position -= (diff * Mathf.Pow(diff.magnitude, grabPow) * 0.3); //Spring
 		transform.position += v;
 
 		//
@@ -104,7 +106,7 @@ function Update() {
 function handUpdate(pos: Vector3,rot:float) {
 
 	// anchorPoint = pos+offset;
-	anchorPoint = pos + Vector3.down*.5;
+	anchorPoint = pos + Vector3.down*.8;
 	//transform.rotation.eulerAngles.y = rot+rotOffset; //rotate with the palm, interferes with rotate snaps
 }
 function snapD(P1:Vector3,P2:Vector3) {

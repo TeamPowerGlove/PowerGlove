@@ -41,7 +41,7 @@ function Update() {
 		var spinAmt = Quaternion.AngleAxis(diff * 180 / Mathf.PI, Vector3.down);
 		anchorRot *= spinAmt;
 		if (widget != null) {
-			widget.turnObj(spinAmt);
+			//widget.turnObj(spinAmt);
 		}
 		cAngle = Mathf.Atan2(P2.z - P1.z, P2.x - P1.x); //This math is identital to the table rotation stuff (although its simple to read alone)
 		var spinFriction = .95;

@@ -25,12 +25,16 @@ public class LeapUnityHandController : MonoBehaviour
 	public GameObject[]				m_hands 	= null;
 	public bool						m_DisplayHands = true;
 	public int						gestureTapped = 0;
+	public bool						gestureCircled = false;
 	//These arrays allow us to use our game object arrays much like pools.
 	//When a new hand/finger is found, we mark a game object by active
 	//by storing it's id, and when it goes out of scope we make the
 	//corresponding gameobject invisible & set the id to -1.
 	private int[]					m_fingerIDs = null;
 	private int[]					m_handIDs	= null;
+	private int[]					circleIDs = null;
+	private int[]					circleSpins = null;
+	private int 					circleIndex = 0;
 	
 	void SetCollidable( GameObject obj, bool collidable )
 	{
@@ -73,14 +77,20 @@ public class LeapUnityHandController : MonoBehaviour
 		{
 			m_handIDs[i] = -1;	
 		}
-		
+		circleIDs = new int[10];
+		circleSpins = new int[10];
+		for( int i = 0; i < circleIDs.Length; i++ ) {
+			circleIDs[i] = -1;
+			circleSpins[i] = 0;
+		}
 		LeapInput.HandFound += new LeapInput.HandFoundHandler(OnHandFound);
 		LeapInput.HandLost += new LeapInput.ObjectLostHandler(OnHandLost);
 		LeapInput.HandUpdated += new LeapInput.HandUpdatedHandler(OnHandUpdated);
-		LeapInput.PointableFound += new 	LeapInput.PointableFoundHandler(OnPointableFound);
+		LeapInput.PointableFound += new LeapInput.PointableFoundHandler(OnPointableFound);
 		LeapInput.PointableLost += new LeapInput.ObjectLostHandler(OnPointableLost);
 		LeapInput.PointableUpdated += new LeapInput.PointableUpdatedHandler(OnPointableUpdated);
 		LeapInput.GestureTap += new LeapInput.GestureTapHandler(OnGestureTap);
+		LeapInput.GestureCircle += new LeapInput.GestureCircleHandler(OnGestureCircle);
 		
 		//do a pass to hide the objects.
 		foreach( GameObject palm in m_palms )
@@ -98,6 +108,26 @@ public class LeapUnityHandController : MonoBehaviour
 	//When updated, load the new data
 	void OnGestureTap(Gesture g) {
 		gestureTapped = g.Id;
+	}
+	void OnGestureCircle(CircleGesture g) {
+		// Debug.Log(g.Progress);
+		if(g.Progress>1.1) {
+			int gestureId = Array.FindIndex(circleIDs, id => id == g.Id);
+			if(gestureId == -1) {
+				if(g.Progress>1.1) {
+					gestureCircled = true;
+					circleIDs[circleIndex] = g.Id;
+					circleSpins[circleIndex] = 1;
+					circleIndex ++;
+					if(circleIndex == 10) circleIndex = 0;
+				}
+			} else {
+				if(g.Progress>circleSpins[gestureId]+1) {
+					circleSpins[gestureId] ++;
+					gestureCircled = true;
+				}
+			}
+		}
 	}
 	void OnPointableUpdated( Pointable p )
 	{

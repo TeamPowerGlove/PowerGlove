@@ -20,6 +20,8 @@ var highlighters = new Array();
 var hoverCount:float;
 var hoverBy:int;
 function Start() {
+	var randomHSV = new ColorHSV(Random.Range(0.0, 255.0), .8, 1);
+	baseColor = randomHSV.ToColor();
 	checkType();
 	var tmp = gameObject.GetComponent(Renderer);
 	if(tmp) highlighters.push(tmp);

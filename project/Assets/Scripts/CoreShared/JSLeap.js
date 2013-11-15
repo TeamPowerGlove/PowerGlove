@@ -99,10 +99,12 @@ function Update () {
 			if(open[0]) {
 				open[0] = false;
 				nowClosed[0] = true;
+				Debug.Log("!!!");
 			} 
 		}
 	} else {
 		hasPalm[0] = false;
+		cSelector[0] = null;
 	}
 	if (palms[1].transform.parent.name != "Unknown Hand") {
 		palmCount ++;
@@ -120,6 +122,7 @@ function Update () {
 		}
 	} else {
 		hasPalm[1] = false;
+		cSelector[1] = null;
 	}
 
 
@@ -127,14 +130,19 @@ function Update () {
 	var newAngle = Mathf.Atan2(P2.z-P1.z,P2.x-P1.x);
 	var diff = newAngle - cAngle ;
 	if (palmCount == 2 && !open[0] && !open[1] && !cSelector[0] && !cSelector[1]) {
+		widget.deselect();
 		table.transform.Rotate(Vector3.down * diff * 180/Mathf.PI * spinFactor);
 		Debug.DrawLine(P1,P2,Color.red);
 	}
 
-	//Respond to Taps (Instantiate dropped objects, smoke poofs, etc.)
+	//Respond and dispatch for gestures
 	if (tapID != leapController.behavior.gestureTapped) {
 		tapID = leapController.behavior.gestureTapped;
 		tapsOverTime++;
+	}
+	if(leapController.behavior.gestureCircled) {
+		leapController.behavior.gestureCircled = false;
+		widget.circle();
 	}
 	tapsOverTime -= .05;
 	if (tapsOverTime > 3) {
@@ -150,8 +158,8 @@ function Update () {
 	stabilityCheck(1);
 
 	//Dispatches to the selector scripts
-	if(hasPalm[0]) grabControl(0);
-	if(hasPalm[1]) grabControl(1);
+	grabControl(0);
+	grabControl(1);
 
 	//Keyboard Control
 	table.transform.Rotate(Vector3.down * Input.GetAxis ("Horizontal") * keySpeed);
@@ -172,21 +180,33 @@ function grabControl(palm:int) {
 			if (Physics.Raycast(palms[palm].transform.position, -palms[palm].transform.up, hit, 5.0)) {
 				var tmpSelector: Selector;
 				tmpSelector = hit.transform.gameObject.GetComponent(Selector);
-				if (!tmpSelector) tmpSelector = hit.transform.parent.gameObject.GetComponent(Selector);
+				if (!tmpSelector) {
+					if(hit.transform.parent) {
+						tmpSelector = hit.transform.parent.gameObject.GetComponent(Selector);
+					}
+				}
+				if (!tmpSelector) {
+					if(hit.transform.parent.parent) {
+						tmpSelector = hit.transform.parent.parent.gameObject.GetComponent(Selector);
+					}
+				}
 				if (tmpSelector) tmpSelector.hover(palm);
 			}
 		}
-		if (!cSelector[palm] && hasPalm[palm] && fCount[palm] <= 2) { //Hover Highlight
+		if (!cSelector[palm] && nowClosed[palm]) {
+			
 			var selectables = GameObject.FindGameObjectsWithTag("Selectable");
 			var bestCount: float = 0; //Return the 'most selected' object, i.e., that which the palm has most hovered over
 			var best: Selector;
 			var bestObj: GameObject;
 			for (var potential: GameObject in selectables) {
 				var tmpSelectable: Selector = potential.GetComponent(typeof(Selector));
-				if(!tmpSelectable) continue;
-				if(tmpSelectable && tmpSelectable.hoverBy != palm) return;
+				if(!tmpSelectable || tmpSelectable.grabbed) continue;
+				Debug.Log(tmpSelectable.hoverBy + " " + palm);
+				if(tmpSelectable && tmpSelectable.hoverBy != palm) continue;
 				var tmpHover = tmpSelectable.hoverCount;
 				if (tmpHover > bestCount) {
+				Debug.Log("grab");
 					bestObj = potential;
 					bestCount = tmpHover;
 					best = tmpSelectable;
