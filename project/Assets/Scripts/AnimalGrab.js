@@ -22,6 +22,8 @@ var cubeSize = .5;
 
 function Start () {
 	cubeSize = .3;
+	rigidbody.centerOfMass = rigidbody.centerOfMass - Vector3(0,.1,0);
+
 	if (selfShader == null) {
 		selfShader = gameObject.GetComponentInChildren(typeof(Renderer));
 	}
@@ -52,7 +54,7 @@ function Update() {
 		//SNAP HERE
 		//
 
-		Debug.Log(transform.position.y);
+		// Debug.Log(transform.position.y);
 		if (transform.position.y < 1.01 && transform.position.y > .99) {
 			// Debug.Log("SNAP");
 			transform.position.y = 1;
@@ -104,9 +106,12 @@ function hover() {
 	//rigidbody.AddForce(Vector3.up*hoverCount);
 	var diff:Vector3 = jsLeap.palms[0].transform.position - transform.position;
 	var strength:float = diff.magnitude;
-	Debug.Log(strength);
-	//strength = Mathf.Pow(2+strength,3); Silly
-	strength = Mathf.Pow(1+strength,2.5);
+	// Debug.Log(strength);
+	//strength = Mathf.Pow(2+strength,3);// Silly
+	//strength = Mathf.Pow((1.3-strength)*12,2);
+	strength = 15/((strength-1.4)*(strength-1.4));
+	if(strength>15) strength = 15;
+	if(strength<-15) strength = -15;
 	rigidbody.AddForce(diff.normalized * strength);
 	if (hoverCount > 10) hoverCount = 10;
 }

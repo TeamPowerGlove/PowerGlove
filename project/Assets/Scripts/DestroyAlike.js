@@ -2,6 +2,7 @@
 var species:int;
 var enable = true;
 var bigPoof:GameObject;
+var splat:GameObject;
 function Start () {
 
 }
