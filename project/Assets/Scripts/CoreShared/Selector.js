@@ -7,6 +7,7 @@
 //Script Types
 var grabScript: Grab;
 var spin: Spin;
+var cartridge:CartridgeGrab;
 // var animalGrab:AnimalGrab;
 var widget: Widget;
 var type: int = -1;
@@ -45,9 +46,11 @@ function checkType() {
 	grabScript = gameObject.GetComponent(Grab);
 	spin = gameObject.GetComponent(Spin);
 	widget = gameObject.GetComponent(Widget);
+	cartridge = gameObject.GetComponent(CartridgeGrab);
 	if (grabScript) type = 0;
 	else if (spin) type = 1;
 	else if (widget) type = 2;
+	else if (cartridge) type = 3;
 	if(type != 2) {
 		widget = GameObject.Find("Widget").GetComponent(typeof(Widget));
 	}
@@ -77,6 +80,8 @@ function handUpdate(pos: Vector3, rot: float) {
 		case 2:
 			widget.handUpdate(pos, rot);
 			break;
+		case 3:
+			cartridge.handUpdate(pos, rot);
 	}
 }
 
@@ -95,6 +100,9 @@ function grab() {
 		case 2:
 			widget.grabbed = true;
 			break;
+		case 3:
+			cartridge.grabbed = true;
+			break;
 	}
 }
 
@@ -110,6 +118,9 @@ function release() {
 			break;
 		case 2:
 			widget.grabbed = false;
+			break;
+		case 3:
+			cartridge.grabbed = false;
 			break;
 	}
 }

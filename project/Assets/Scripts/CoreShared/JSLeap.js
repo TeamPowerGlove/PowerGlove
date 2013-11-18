@@ -4,7 +4,7 @@ var grabDist = 3.0;
 var spinFactor = 1.0;
 var thumbTolerance = 60;
 var keySpeed = 1;
-var tapPoof:Transform;
+var touchPoof:GameObject;
 @HideInInspector
 
 var cAngle:float = 0; //c...urrent
@@ -190,7 +190,10 @@ function grabControl(palm:int) {
 						tmpSelector = hit.transform.parent.parent.gameObject.GetComponent(Selector);
 					}
 				}
-				if (tmpSelector) tmpSelector.hover(palm);
+				if (tmpSelector) {
+					tmpSelector.hover(palm);
+					Instantiate(touchPoof,hit.point,Quaternion.identity);
+				}
 			}
 		}
 		if (!cSelector[palm] && nowClosed[palm]) {
