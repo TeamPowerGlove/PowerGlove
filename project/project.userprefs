@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Trigger.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Clock.js">
     <Files>
-      <File FileName="Assets\Clock.js" Line="18" Column="29" />
-      <File FileName="Assets\Trigger.js" Line="14" Column="2" />
+      <File FileName="Assets\Clock.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
