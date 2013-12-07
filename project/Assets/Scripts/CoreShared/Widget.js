@@ -78,6 +78,11 @@ function Update() {
 	} else {
 		if(firstGrabFrame == false) {
 			//firstReleaseFrame
+			var vec = cSelected.transform.localRotation.eulerAngles;
+			vec.x = Mathf.Round(vec.x / 90) * 90;
+			vec.y = Mathf.Round(vec.y / 90) * 90;
+			vec.z = Mathf.Round(vec.z / 90) * 90;
+			cSelected.transform.localRotation.eulerAngles = vec;
 			releaseTime = Time.time;
 			releaseRot = transform.rotation;
 			firstGrabFrame = true;

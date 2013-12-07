@@ -13,6 +13,7 @@ var throwPow:int;
 var firstGrabFrame = true;
 var snapPoints = new Array();
 var snapAngles = new Array();
+var snapCenters = new Array();
 var cubeSize = .5;
 
 function Start () {
@@ -27,10 +28,9 @@ function Update() {
 			
 			snapPoints = new Array();
 			var snappy = GameObject.FindGameObjectsWithTag("Snappy");
-			Debug.Log("ASDASD");
 			for (var snapObj:GameObject in snappy) {
-				Debug.Log("SNAPPP");
-				if(snapObj == gameObject) break;
+				Debug.Log(snapObj.transform.parent.gameObject);
+				if(snapObj.transform.parent.transform == transform) break;
 				snapPoints.push(snapObj.transform.position+snapObj.transform.up*cubeSize);
 				snapPoints.push(snapObj.transform.position-snapObj.transform.up*cubeSize);
 				snapPoints.push(snapObj.transform.position+snapObj.transform.right*cubeSize);
@@ -43,9 +43,21 @@ function Update() {
 				snapAngles.push(snapObj.transform.rotation);
 				snapAngles.push(snapObj.transform.rotation);
 				snapAngles.push(snapObj.transform.rotation);
+				snapCenters.push(snapObj.transform.position);
+				snapCenters.push(snapObj.transform.position);
+				snapCenters.push(snapObj.transform.position);
+				snapCenters.push(snapObj.transform.position);
+				snapCenters.push(snapObj.transform.position);
+				snapCenters.push(snapObj.transform.position);
 			}
 			for (var snapPoint:Vector3 in snapPoints) {
-				Debug.DrawLine(snapPoint,snapPoint+Vector3.up*.05,Color.red);
+				Debug.DrawLine(snapPoint,snapPoint+Vector3.up*.05,Color.yellow);
+
+				Debug.DrawLine(snapPoint,snapPoint+Vector3.right*.05,Color.yellow);
+
+				Debug.DrawLine(snapPoint,snapPoint-Vector3.up*.05,Color.yellow);
+
+				Debug.DrawLine(snapPoint,snapPoint-Vector3.right*.05,Color.yellow);
 			}
 		}
 
@@ -75,11 +87,60 @@ function Update() {
 		if(transform.position.y < 3) {
 			transform.position.y = 3;
 		}
+		if(transform.position.z > 3.5 || transform.position.z < -3.5 || transform.position.x > 3.5 || transform.position.x < -3.5) {
+			Destroy(gameObject);
+			jsLeap.widget.deselect();
+			return;
+		}
 		for (var i = 0;i<snapPoints.length;i++) {
 			if(snapD(transform.position,snapPoints[i])) {
 				transform.position = snapPoints[i];
-				transform.rotation = snapAngles[i];
-				lastPos = transform.position;
+				//transform.rotation = snapAngles[i];
+				// 				var snapPoint:Vector3 = snapPoints[i];
+				// var snapCenter:Vector3 = snapCenters[i];
+				// var snapAng:Quaternion = snapAngles[i];
+				// var snapEul:Vector3 = snapAng.eulerAngles;
+				// var dir:Vector3 = new Vector3(snapCenter.x- snapPoint.x,snapCenter.y - snapPoint.y,snapCenter.z -snapPoint.z);
+				// Debug.DrawLine(snapCenter,snapCenter+dir,Color.green);
+				// Debug.DrawLine(snapCenter,snapPoint,Color.red);
+				// var bestDot = 0;
+				// var bestAngle = new Vector3();
+				// var tmpDot = Vector3.Dot(dir,transform.up);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = transform.up;
+				// }
+				// tmpDot = Vector3.Dot(dir,-transform.up);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = -transform.up;
+				// }
+				// tmpDot = Vector3.Dot(dir,transform.right);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = transform.right;
+
+				// }
+				// tmpDot = Vector3.Dot(dir,-transform.right);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = -transform.right;
+
+				// }
+				// tmpDot = Vector3.Dot(dir,transform.forward);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = transform.forward;
+
+				// }
+				// tmpDot = Vector3.Dot(dir,-transform.forward);
+				// if(tmpDot>bestDot) {
+				// 	bestDot = tmpDot;
+				// 	bestAngle = -transform.forward;
+
+				// }
+				// Debug.DrawLine(transform.position,transform.position+bestAngle,Color.blue);
+				// transform.rotation = Quaternion.FromToRotation(bestAngle,dir) * transform.rotation;
 			}
 		}
 
@@ -110,7 +171,7 @@ function handUpdate(pos: Vector3,rot:float) {
 	//transform.rotation.eulerAngles.y = rot+rotOffset; //rotate with the palm, interferes with rotate snaps
 }
 function snapD(P1:Vector3,P2:Vector3) {
-	var tolerance = .03;
+	var tolerance = .05;
 	var diff:Vector3 = P2-P1;
 	if(diff.sqrMagnitude<tolerance) return true;
 	return false;

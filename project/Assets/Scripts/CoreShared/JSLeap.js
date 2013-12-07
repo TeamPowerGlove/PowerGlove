@@ -20,6 +20,7 @@ var primFingers:GameObject[];
 var secFingers:GameObject[];
 var fingerCount:int;
 var palmCount:int;
+var sinceSelected:int;
 
 var hasThumb:boolean[] = [false,false];
 
@@ -69,6 +70,7 @@ function Update () {
 	palmCount = 0;
 	P1 = palms[0].transform.position;
 	P2 = palms[1].transform.position;
+	sinceSelected ++;
 
 	//
 	//Count the active fingers and palms
@@ -129,7 +131,8 @@ function Update () {
 	//Rotate table
 	var newAngle = Mathf.Atan2(P2.z-P1.z,P2.x-P1.x);
 	var diff = newAngle - cAngle ;
-	if (palmCount == 2 && !open[0] && !open[1] && !cSelector[0] && !cSelector[1]) {
+	if (palmCount == 2 && !open[0] && !open[1] && ((!cSelector[0] && !cSelector[1]) || sinceSelected<5)) {
+		sinceSelected = 0;
 		widget.deselect();
 		table.transform.Rotate(Vector3.down * diff * 180/Mathf.PI * spinFactor);
 		Debug.DrawLine(P1,P2,Color.red);
@@ -216,8 +219,9 @@ function grabControl(palm:int) {
 				}
 			}
 			if (bestCount != 0) { //An object is to be grabbed
+				sinceSelected = 0;
 				if (best.copy) {
-					var newObj: GameObject = Instantiate(bestObj, bestObj.transform.position, new Quaternion(0, 0, 0, 0));
+					var newObj: GameObject = Instantiate(bestObj, bestObj.transform.position, bestObj.transform.rotation);
 					newObj.transform.parent = table.transform;
 					cSelector[palm] = newObj.GetComponent(Selector);
 					cSelector[palm].copy = false;
